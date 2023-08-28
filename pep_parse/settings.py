@@ -64,6 +64,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {'pep_parse.pipelines.PepParsePipeline': 300, }
 
+
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
@@ -88,5 +89,6 @@ ITEM_PIPELINES = {'pep_parse.pipelines.PepParsePipeline': 300, }
 FEEDS = {
     'results/pep_%(time)s.csv': {
         'format': 'csv',
+        'fields': ['number', 'name', 'status'],
     }
 }
