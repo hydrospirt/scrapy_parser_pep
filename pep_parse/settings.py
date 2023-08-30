@@ -1,6 +1,7 @@
 from pathlib import Path
 
 BOT_NAME = 'pep_parse'
+DOMAIN = 'peps.python.org'
 
 NEWSPIDER_MODULE = f'{BOT_NAME}.spiders'
 SPIDER_MODULES = [NEWSPIDER_MODULE]
