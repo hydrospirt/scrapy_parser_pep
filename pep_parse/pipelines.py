@@ -1,10 +1,6 @@
 import csv
 from datetime import datetime as dt
-from pep_parse.settings import BASE_DIR
-
-DT_FORMAT = '%Y-%M-%d_%H-%M-%S'
-OUTPUT_DIR = BASE_DIR / 'results'
-FILE_NAME = 'status_summary_{time}.csv'
+from pep_parse.settings import BASE_DIR, DT_FORMAT, OUTPUT_DIR, FILE_NAME
 
 
 class PepParsePipeline:
@@ -23,7 +19,8 @@ class PepParsePipeline:
     def close_spider(self, spider):
         time = dt.now().strftime(DT_FORMAT)
         total = sum(self.results.values())
-        file_path = BASE_DIR / FILE_NAME.format(time=time)
+        file_path = BASE_DIR / FILE_NAME.format(
+            OUTPUT_DIR=OUTPUT_DIR, time=time)
         with open(file_path, mode='w', encoding='utf-8') as csvfile:
             fieldnames = ('Статус', 'Количество')
             writer = csv.DictWriter(
