@@ -16,7 +16,7 @@ class PepSpider(scrapy.Spider):
             if pep_link and pep_link != '#numerical-index':
                 yield response.follow(pep_link, callback=self.parse_pep)
 
-    def parse_pep(self, response: HtmlResponse) -> Generator[PepParseItem]:
+    def parse_pep(self, response: HtmlResponse) -> Generator:
         data = {
             'number': int(response.css(
                 '#pep-content h1::text').re_first(r'\d+')),
