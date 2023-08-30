@@ -1,15 +1,20 @@
 import csv
 from datetime import datetime as dt
 
+from pep_parse.items import PepParseItem
 from pep_parse.settings import BASE_DIR, DT_FORMAT, FILE_NAME, OUTPUT_DIR
+from pep_parse.spiders.pep import PepSpider
 
 
 class PepParsePipeline:
 
-    def open_spider(self, spider):
+    def open_spider(self, spider: PepSpider) -> None:
         self.results = {}
 
-    def process_item(self, item, spider):
+    def process_item(self,
+                     item: PepParseItem,
+                     spider: PepSpider) -> PepParseItem:
+
         pep_status = item['status']
         if self.results.get(pep_status):
             self.results[pep_status] += 1
@@ -17,7 +22,7 @@ class PepParsePipeline:
             self.results[pep_status] = 1
         return item
 
-    def close_spider(self, spider):
+    def close_spider(self, spider: PepSpider) -> None:
         time = dt.now().strftime(DT_FORMAT)
         total = sum(self.results.values())
         file_path = BASE_DIR / FILE_NAME.format(
