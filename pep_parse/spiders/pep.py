@@ -1,19 +1,22 @@
 import scrapy
+from scrapy.http.response.html import HtmlResponse
+from typing import Iterator
 from pep_parse.items import PepParseItem
+from pep_parse.settings import DOMAIN
 
 
 class PepSpider(scrapy.Spider):
     name = 'pep'
-    allowed_domains = ['peps.python.org']
-    start_urls = ['https://peps.python.org/']
+    allowed_domains = [DOMAIN]
+    start_urls = [f'https://{DOMAIN}/']
 
-    def parse(self, response):
+    def parse(self, response: HtmlResponse) -> Iterator:
         pep_links = response.css('#numerical-index a::attr(href)').extract()
         for pep_link in pep_links:
             if pep_link and pep_link != '#numerical-index':
                 yield response.follow(pep_link, callback=self.parse_pep)
 
-    def parse_pep(self, response):
+    def parse_pep(self, response: HtmlResponse) -> PepParseItem:
         data = {
             'number': int(response.css(
                 '#pep-content h1::text').re_first(r'\d+')),
