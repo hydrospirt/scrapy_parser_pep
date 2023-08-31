@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Generator
+from typing import Generator, Iterable
 
 from scrapy import exceptions, signals
 from scrapy.crawler import Crawler
@@ -21,7 +21,7 @@ class PepParseSpiderMiddleware:
 
     def process_spider_output(self,
                               response: Response,
-                              result,
+                              result: Iterable,
                               spider: Spider) -> Generator:
         for i in result:
             yield i
@@ -33,7 +33,7 @@ class PepParseSpiderMiddleware:
         pass
 
     def process_start_requests(self,
-                               start_requests,
+                               start_requests: Iterable,
                                spider: Spider) -> Generator:
         for r in start_requests:
             yield r
